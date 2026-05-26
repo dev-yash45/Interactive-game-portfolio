@@ -1,0 +1,1036 @@
+/* ===== RESET ALL BROWSERS TO SAME STATE ===== */
+*{
+    margin: 0;      /* Remove default space OUTSIDE */
+    padding: 0;     /* Remove default space INSIDE */
+    box-sizing: border-box;  /* Include borders in width/height */
+}
+
+body{
+    overflow: hidden;  /* Hide scrollbars */
+    font-family: 'Press Start 2P', cursive;  /* Game font */
+    background: #5c94fc;  /* Light blue background */
+}
+
+
+/* ===== Task -1 : MAIN GAME CONTAINER ===== */
+#world{
+    position: relative;           /* HINT: How to position element */
+    width: 9000px;               /* How wide (for scrolling) */
+    height: 100vh;       /* How tall (full screen height) */
+    overflow: hidden;            /* Hide things outside edges */
+    background: 
+    linear-gradient(
+        to bottom,             /* HINT: Direction (top/bottom/left/right) */
+        #87ceeb 0%,             /* HINT: Sky color at top */
+        #87ceeb 60%,             /* Light blue sky */
+        #3cb043 60%,             /* Green ground */
+        #3cb043 100%             /* Green ground */
+    );
+    
+}
+
+#world::before{
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(255,255,255,.12),
+        transparent 60%
+    );
+
+    pointer-events: none;
+}
+
+/* ===== Task - 2 : GLOWING SUN ===== */
+.sun{
+    position: absolute;          /* HINT: absolute/relative */
+    width: 140px;                /* Width of sun */
+    height: 140px;               /* Height of sun (same = circle) */
+    background: #ffd700;        /* HINT: Color name or hex */
+    border-radius: 50%;          /* Makes square into circle */
+    top: 50px;                   /* Distance from TOP */
+    right: 300px;                /* Distance from RIGHT */
+    box-shadow: 0 0 60px #ffd700;  /* HINT: Glow color */
+    animation: sunPulse 3s infinite alternate;  /* Animation name */
+}
+
+/* HOW TO ANIMATE: Keyframes define what changes */
+@keyframes sunPulse{
+    from{
+        transform: scale(1);     /* Start size: normal (1) */
+    }
+    to{
+        transform: scale(1.1);   /* End size: 10% bigger */
+    }
+}
+
+/* ===== Task - 3 : BASIC CLOUD SHAPE ===== */
+.cloud{
+    position: absolute;           /* HINT: absolute/relative */
+    width: 200px;                 /* Width of cloud */
+    height: 60px;                 /* Height of cloud */
+    background: white;         /* HINT: What color */
+    border-radius: 100px;         /* Make it puffy/rounded */
+    opacity: .95;
+    /* Make slightly transparent */
+}
+
+/* CREATE BUMPY CLOUD EFFECT WITH ::before & ::after */
+.cloud::before,
+.cloud::after{
+    content: "";                  /* Create fake elements */
+    position: absolute;           /* HINT: absolute/relative */
+    background: white;         /* HINT: Same as cloud color */
+    border-radius: 50%;           /* Make circles */
+    ;
+}
+
+.cloud::before{
+    width: 90px;
+    height: 90px;
+    
+    top: -30px;                   /* Move UP */
+    left: 20px;                   /* Move RIGHT */
+}
+
+.cloud::after{
+    width: 110px;
+    height: 110px;
+    
+    top: -45px;                   /* Move UP MORE */
+    right: 20px;                  /* Move LEFT */
+}
+
+/* POSITION CLOUD 1 */
+.cloud1{
+    top: 100px;
+    left: 200px;
+    animation: floatCloud 25s linear infinite;  /* Slow float */
+}
+
+/* POSITION CLOUD 2 */
+.cloud2{
+    top: 180px;
+    left: 1600px;
+    animation: floatCloud 35s linear infinite;  /* Different speed */
+}
+
+/* POSITION CLOUD 3 */
+.cloud3{
+    top: 80px;
+    left: 3500px;
+    animation: floatCloud 30s linear infinite;
+}
+
+/* MAKE CLOUDS FLOAT LEFT */
+@keyframes floatCloud{
+    from{
+        transform: translateX(0px);      /* Start position */
+    }
+    to{
+        transform: translateX(-800px);  /* Move 800px LEFT */
+    }
+}
+
+
+/* ===== Task 4 : MOUNTAIN USING BORDERS ===== */
+.mountain{
+    position: absolute;              /* HINT: absolute/relative */
+    bottom: 120px;                   /* Position from BOTTOM */
+    width: 0;                        /* Start with 0 width */
+    height: 0;                       /* Start with 0 height */
+    
+    /* TRICK: Use borders to create triangle */
+    border-left: 250px solid transparent;        /* HINT: transparent */
+    border-right: 250px solid transparent;       /* HINT: transparent */
+    border-bottom: 400px solid #8B4513;      /* HINT: Mountain color */
+    
+    filter: brightness(.9);          /* Make slightly darker */
+}
+
+/* ===== Task - 5 : GROUND WITH REPEATING PATTERN ===== */
+.ground{
+    position: absolute;               /* HINT: absolute/relative */
+    bottom: 0;                        /* Stick to BOTTOM */
+    width: 9000px;                    /* Match world width */
+    height: 120px;                    /* How tall */
+    background: 
+    repeating-linear-gradient(
+        90deg,                        /* Horizontal direction */
+        #8B4513 0px,                 /* HINT: First stripe color */
+        #8B4513 60px,                /* HINT: First stripe width */
+        #7a3d00 60px,                 /* Second stripe color */
+        #7a3d00 120px                /* HINT: Pattern repeat width */
+    );
+    border-top: 8px solid #5d2906;   /* HINT: Border color */
+}
+
+/* ===== Task - 6 : PLAYER CONTAINER ===== */
+#player{
+    position: absolute;               /* HINT: absolute/relative */
+    width: 70px;
+    height: 100px;
+    left: 100px;                      /* Distance from LEFT */
+    bottom: 120px;                    /* Distance from BOTTOM */
+    z-index: 100;                     /* Layer above other things */
+    transition: transform .1s;        /* Smooth movement */
+}
+
+/* ===== CAP (RED TOP) ===== */
+.cap{
+    width: 70px;
+    height: 20px;
+    background: #ff0000;              /* HINT: Cap color */
+    border: 4px solid #000000;        /* HINT: Border color */
+    position: absolute;                /* HINT: absolute/relative */
+}
+
+/* ===== FACE (SKIN COLOR) ===== */
+.face{
+    width: 50px;
+    height: 40px;
+    background: #f9d7b1;              /* HINT: Skin color (peachy) */
+    border: 4px solid #000000;        /* HINT: Border color */
+    position: absolute;                /* HINT: absolute/relative */
+    top: 18px;                        /* Position below cap */
+    left: 10px;                       /* Center on body */
+}
+
+/* ===== BODY (RED SHIRT) ===== */
+.body{
+    width: 55px;
+    height: 35px;
+    background: #ff0000;              /* HINT: Body color */
+    border: 4px solid #000000;        /* HINT: Border color */
+    position: absolute;                /* HINT: absolute/relative */
+    top: 55px;                        /* Position below face */
+    left: 7px;                        /* Center on player */
+}
+
+/* ===== LEGS (BLUE PANTS) ===== */
+.legs{
+    width: 55px;
+    height: 25px;
+    background: #0000ff;              /* HINT: Leg color (blue) */
+    border: 4px solid #000000;        /* HINT: Border color */
+    position: absolute;                /* HINT: absolute/relative */
+    top: 85px;                        /* Position below body */
+    left: 7px;                        /* Center on player */
+}
+
+/* ===== WALKING ANIMATION ===== */
+.walk .legs{
+    animation: walk .2s infinite alternate;  /* Wiggle legs */
+}
+
+@keyframes walk{
+    from{
+        transform: translateX(-3px);   /* Wiggle LEFT */
+    }
+    to{
+        transform: translateX(3px);    /* Wiggle RIGHT */
+    }
+}
+
+/* ===== Task - 7 : INFO PANELS ===== */
+.panel{
+    position: absolute;               /* HINT: absolute/relative */
+    width: 550px;
+    background: rgba(255,255,255,.92);             /* HINT: Card background color */
+    border: 2px solid #00000014;       /* HINT: Border color */
+    border-radius: 18px;
+
+    padding: 40px;                   /* Space INSIDE card */
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);  /* HINT: Shadow color */
+    color: #1e293b;
+    transition: transform .25s ease,
+    box-shadow .25 ease;                 /* Smooth hover animation */
+    
+}
+
+.panelW{
+    
+
+    animation: floatCard 3s ease-in-out infinite alternate;
+}
+
+/* ===== WHEN MOUSE HOVERS ON CARD ===== */
+.panel:hover{
+
+    animation-play-state: paused;
+    transform: 
+    translateX(-15px)                /* Move UP 10px */
+    rotateX(-5deg)                   /* Tilt slightly */
+    scale(1.03);  
+    box-shadow: 0 18px 40px rgba(0,0,0,.22);                   /* Grow 3% bigger */
+}
+
+@keyframes floatCard{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-15px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+
+
+/* ===== PANEL HEADING ===== */
+.panel h1{
+    font-size: 28px;
+    margin-bottom: 18px;
+    color: #0f172a;
+    letter-spacing: 1px;
+}
+
+/* ===== PANEL TEXT ===== */
+.panel p{
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.9;                  /* Double spacing between lines */
+    color: #334155;
+}
+
+/* ===== SKILLS SECTION ===== */
+.skills{
+    display: flex;                   /* HINT: flex/grid */
+    flex-wrap: wrap;                 /* Stack on new line if needed */
+    gap: 15px;                       /* Space between skills */
+    margin-top: 25px;
+}
+
+/* ===== INDIVIDUAL SKILL TAG ===== */
+.skill{
+    background: #5798ff;             /* HINT: Skill tag color */
+    padding: 12px 22px;
+
+    min-width: 120px;
+
+
+    border: 4px solid #38bdf8 ;       /* HINT: Border color */
+    transition: .2s;
+}
+
+/* ===== SKILL HOVER EFFECT ===== */
+.skill:hover{
+    transform: scale(1.15) rotate(-3deg);  /* Grow & tilt */
+}
+
+/* ===== PROJECTS ===== */
+.project{
+    margin-top: 20px;
+    padding: 20px;
+    background: #f0f0f0;             /* HINT: Project background */
+    color: #333;                  /* HINT: Text color */
+    border: 4px solid #ccc;       /* HINT: Border color */
+    transition: .3s;
+}
+
+/* ===== PROJECT HOVER EFFECT ===== */
+.project:hover{
+    transform: 
+    translateX(10px)                 /* Slide RIGHT */
+    scale(1.05);                     /* Grow 5% */
+}
+
+/* ===== Task- 8 : GOLDEN COINS ===== */
+.coin{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;         /* HINT: Make circle */
+    background: #ffd700;             /* HINT: Coin color */
+    border: 5px solid #ffa500;      /* HINT: Border color */
+    position: absolute;               /* HINT: absolute/relative */
+    animation: coinSpin .5s infinite alternate;  /* Spin animation */
+}
+
+/* ===== COIN SPINNING EFFECT ===== */
+@keyframes coinSpin{
+    from{
+        transform: rotateY(0deg);    /* Face forward */
+    }
+    to{
+        transform: rotateY(180deg);  /* Spin 180 degrees */
+    }
+}
+
+/* ===== Task - 9 : ENEMY CIRCLES ===== */
+.enemy{
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, #ffb3ec,#ff1493);             /* HINT: Enemy color */
+    border-radius: 50%;          /* HINT: Make circle */
+    border: 5px solid #000;      /* HINT: Border color */
+    position: absolute;               /* HINT: absolute/relative */
+    box-shadow: 0 0 20px rgba(255,20,147,.6),
+    inset -6px -6px 10px rgba(0,0,0,.25);
+    animation: enemyMove 1s ease-in-out infinite alternate,
+    enemyGlow 1.5s infinite alternate
+      /* Wobble animation */
+}
+
+@keyframes enemyMove{
+    from{
+        transform: translateX(-40px);
+    }
+    to{
+        transform: translateX(40px);
+    }
+}
+
+@keyframes enemyGlow{
+    from{
+        box-shadow: 0 0 10px  rgba(255,20,147,.4),
+        inset -6px -6px 10px rgba(0,0,0,.2);
+    }
+    to{
+        box-shadow: 0 0 25px rgba(255,20,147,.9,
+        inset -6px -6px 15px rgba(0,0,0,.3));
+    }
+}
+
+
+
+/* ===== Task - 10 : FLOATING BLOCKS ===== */
+.block{
+    position: absolute;               /* HINT: absolute/relative */
+    width: 80px;
+    height: 80px;
+    background: gold;             /* HINT: Block color */
+    border: 5px solid orange;      /* HINT: Border color */
+    animation: blockFloat 2s infinite ease-in-out;  /* Bounce up/down */
+}
+
+/* ===== BLOCK FLOATING ANIMATION ===== */
+@keyframes blockFloat{
+    0%, 100%{
+        transform: translateY(0px);   /* Position: normal */
+    }
+    50%{
+        transform: translateY(-15px); /* Move UP 15px at middle */
+    }
+}
+
+/* ===== Task - 11 : FLAG POLE ===== */
+#flag{
+    position: absolute;               /* HINT: absolute/relative */
+    right: 300px;                    /* Position from RIGHT */
+    bottom: 120px;                   /* Position from BOTTOM */
+    width: 12px;                     /* Thin pole */
+    height: 350px;                   /* Tall pole */
+    background: #8B4513;             /* HINT: Pole color */
+}
+
+
+
+/* ===== FLAG CLOTH (WAVING) ===== */
+#flag::after{
+    content: "";
+    
+    position: absolute;
+    top: 6px;
+    left: 12px;
+
+    width: 0;
+    height: 0;
+    border-top: 45px solid transparent;
+    border-bottom: 45px solid transparent;
+    border-left: 130px solid #ff4d4d;
+    filter:drop-shadow(0 0 8px rgba(255,77,77,.5));
+
+    
+    animation: flagWave 2s ease-in-out infinite /* Wave animation */
+}
+
+/* ===== FLAG WAVING EFFECT ===== */
+@keyframes flagWave{
+    from{
+        transform: skewY(0deg);      /* Straight */
+    }
+    to{
+        transform: skewY(5deg);      /* Wave/tilt */
+    }
+}
+
+
+/* ===== Task 12 : FLOATING UI (Score Display) ===== */
+#ui{
+    position: fixed;               /* HINT: fixed (stays on screen) */
+
+    top: 20px;                       /* Distance from TOP */
+    left: 20px;                      /* Distance from LEFT */
+    z-index: 9999;                   /* Show on top */
+    color: #fff;                 /* HINT: Text color */
+       /* HINT: Shadow color */
+    line-height: 2;                  /* Double line spacing */
+}
+
+/* ===== Task - 13 : START SCREEN BACKGROUND ===== */
+#start{
+    position: fixed;  
+    
+    top: 0;
+    left: 0;
+    
+    /* HINT: fixed (full screen) */
+    width: 100%;
+    height: 100%;
+
+    z-index: 99999;  
+    overflow: hidden ;
+
+    background:linear-gradient(
+        -45deg,
+        #081120 0%,
+        #132850 30%,
+        #1e3a8a 60%,
+        #38bdf8 100%
+    );
+    background-size: 300% 300%;
+    animation: bgMove 6s ease infinite alternate;
+    
+    box-shadow: inset 0 0 200px rbga(0,0,0,.8);
+    
+    /* HINT: Color */
+    color: #fff;                  /* HINT: Text color */
+    display: flex;                   /* Center content */
+    justify-content: center;         /* Center horizontally */
+    align-items: center;             /* Center vertically */
+    flex-direction: column;          /* Stack vertically */
+                    /* Show above everything */
+    text-align: center;
+    
+}
+
+@keyframes bgMove{
+    0%{
+        background-position: left;
+    }
+
+    100%{
+        background-position: right;
+    }
+}
+/* ===== START SCREEN TITLE ===== */
+#start h1{
+    font-size: 54px;
+
+    letter-spacing: 6px;
+    
+    margin-bottom: 25px;
+    color: #ffffff;
+    text-shadow: 
+    0 0 8px rgba(255,255,255,.9),
+    0 0 18px rgba(120,220,255,.9),
+    0 0 35px rgba(0,150,255,.8);
+    
+    animation: titleGlow 2s ease-in-out infinite alternate;  /* Glow animation */
+}
+
+#start p{
+
+    margin-top: 10px;
+
+    line-height: 2.2;
+
+    font-size: 18px;
+
+    color: rgba(255,255,255,.92);
+
+    text-shadow:
+    0 0 8px rgba(255,255,255,.2);
+}
+/* ===== TITLE GLOW EFFECT ===== */
+@keyframes titleGlow{
+    from{
+        text-shadow: 
+        0 0 10px rgba(255,255,255,.8),
+        0 0 20px rgba(120,220,255,.7),
+        0 0 40px rgba(0,150,255,.6);  /* HINT: Glow color at start */
+    }
+    to{
+        text-shadow: 
+        0 0 15px rgba(255,255,255,1),
+        0 0 35px rgba(120,220,255,1),
+        0 0 70px rgba(0,150,255,.9);  /* HINT: Glow color at end */
+    }
+}
+
+.coinT{
+    color:#ffe066;
+
+    text-shadow:
+    0 0 10px rgba(255,224,102,.8);
+}
+
+.enemyT{
+
+    color: #ff7bff;
+
+    text-shadow:
+    0 0 10px rgba(255,123,255,.7);
+}
+
+.controls{
+
+    margin-top: 10px;
+
+    opacity: .8;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+.mission{
+
+    display: flex;
+
+    gap:25px;
+
+    margin-top: 12px;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+
+/* ===== START BUTTON ===== */
+#start button{
+    margin-top: 28px;
+    padding: 30px 45px;
+    border: none;
+    color: #0b1020;
+    font-weight: bold;
+    background: linear-gradient(
+        to bottom,
+        #4cc9f0,
+        #4361ee
+    );             /* HINT: Button color */
+    border: 3px solid #2d4f7c; 
+    border-radius: 999px;
+    box-shadow:
+    0 0 10px rgba(120,220,255,.6),
+    0 0 20px rgba(120,220,255,.4);      /* HINT: Border color */
+    cursor: pointer;                /* HINT: How cursor looks */
+    font-family: 'Press Start 2P', cursive;   
+    text-shadow: 0 0 8px rgba(255,255,255,.4);
+    filter: saturate(1.1);
+    transition: all .25s cubic-bezier(.22,.61,.36,1);
+    animation: buttonFloat 2s ease-in-out infinite;
+}
+
+.btn-start:hover{
+    transform: translateY(-4px);
+    scale:1.05;
+
+    box-shadow: 0 10px 0 #2d4f7c,
+    0 0 35px rgba(120,220,255,.8);
+
+    cursor: pointer;
+
+}
+
+@keyframes buttonFloat{
+    0%,100%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-6px);
+    }
+}
+/* ===== Task - 14 : POPUP OVERLAY (Hidden) ===== */
+#contactPopup{
+    position: fixed;               /* HINT: fixed (full screen) */
+    inset: 0;                        /* Cover entire screen */
+    background: rgba(0,0,0,.75);     /* Dark semi-transparent */
+    display: flex;                   /* Hidden by default */
+    justify-content: center;         /* Center horizontally */
+    align-items: center;             /* Center vertically */
+    z-index: 99999;                  /* Show on top */
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .5s ease;
+}
+
+#contactPopup.show{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===== POPUP BOX ===== */
+.popup-box{
+    width: 90%;
+    max-width: 700px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);             /* HINT: Box background */
+    border: 4px solid #000;    
+    border-radius: 24px; /* HINT: Border color */
+    padding: 40px;
+    box-shadow: 0 0 40px rgba(0,255,255,.25);
+    box-shadow: 15px 15px #000;  /* HINT: Shadow color */
+    text-align: center;
+    transform: translateY(120px) scale(.7);
+
+    transition: .7s cubic-bezier(.19, 1, .22, 1),
+    opacity .5s;
+    animation: popupGlow 2s infinite alternate;
+
+}
+
+#contactPopup.show .popup-box{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+@keyframes popupGlow{
+    from{
+        box-shadow: 0 0 20px rgba(0,255,255,.15);
+    }
+
+    to{
+        box-shadow: 0 0 45px rgba(0,255,255,.45);
+    }
+}
+
+/* ===== POPUP HEADING ===== */
+.popup-box h1{
+    margin-top: 20px;
+    font-size: 26px;
+    margin-bottom: 30px;
+    letter-spacing: 3px;
+    color:#111;
+    line-height: 1.3;
+}
+
+/* ===== POPUP TEXT ===== */
+.popup-box p{
+    font-size: 14px;
+    line-height: 2;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* ===== INPUT FIELDS ===== */
+.popup-box input,
+.popup-box textarea{
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 18px;
+    border: 3px solid #222;     /* HINT: Border color */
+    border-radius: 14px;
+    background: rgba(255,255,255,.7);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* ===== TEXTAREA (MESSAGE BOX) ===== */
+.popup-box textarea{
+    height: 150px;
+    resize: none;  
+    border-radius: 18px;                 /* Don't allow resize */
+}
+
+#badEnding{
+     position: fixed;               /* HINT: fixed (full screen) */
+    inset: 0;                        /* Cover entire screen */
+    background: rgba(0,0,0,.75);     /* Dark semi-transparent */
+    display: flex;                   /* Hidden by default */
+    justify-content: center;         /* Center horizontally */
+    align-items: center;             /* Center vertically */
+    z-index: 99999;                  /* Show on top */
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .5s ease;
+}
+
+#badEnding.show{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bad-box{
+    background: rgba(15,0,0,.95);
+    border: 4px solid #ff0033;
+    border-radius: 24px;
+    box-shadow: 0 0 40px rgba(255,0,0,.6);
+    color: white;
+    width: 90%;
+    max-width: 700px;
+    padding: 40px;
+    text-align: center;
+    transform: translateY(120px) scale(.7);
+    opacity:0;
+    transition: .7s cubic-bezier(0.19, 1, 0.22, 1), opacity .5s;
+    animation: glitchPop .5s ease;
+}
+
+#badEnding.show .bad-box{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.bad-box h1{
+    color:#ff0033;
+    font-size: 26px;
+    text-shadow: 0 0  12px red;
+    margin-bottom: 25px;
+}
+
+.bad-box p{
+    color: rgba(255,255,255,.85);
+    line-height: 2;
+    margin-bottom: 25px;
+}
+
+.bad-box button{
+    padding: 18px 35px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 18px;
+
+    background: linear-gradient(45deg,#ff0033,#660000);
+    color:white;
+    cursor:pointer;
+    font-family: 'Press Start 2P',cursive;
+    transition: .3s;
+}
+
+.bad-box button:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 25px red;
+}
+
+@keyframes glitchPop{
+    0%{
+        transform: scale(.6) translateX(-40px);
+        opacity: 0;
+    }
+
+    25%{
+        transform: scale(1.05) translateX(20px);
+    }
+    50%{
+        transform: scale(.95) translateX(-10px);
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#gameOver{
+     position: fixed;               /* HINT: fixed (full screen) */
+    inset: 0;                        /* Cover entire screen */
+    background: rgba(0,0,0,.75);     /* Dark semi-transparent */
+    display: flex;                   /* Hidden by default */
+    justify-content: center;         /* Center horizontally */
+    align-items: center;             /* Center vertically */
+    z-index: 99999;                  /* Show on top */
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .5s ease;
+}
+
+#gameOver.show{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.over-box{
+    background: rgba(15,0,0,.95);
+    border: 4px solid #ff0033;
+    border-radius: 24px;
+    box-shadow: 0 0 40px rgba(255,0,0,.6);
+    color: white;
+    width: 90%;
+    max-width: 700px;
+    padding: 40px;
+    text-align: center;
+    transform: translateY(120px) scale(.7);
+    opacity:0;
+    transition: .7s cubic-bezier(0.19, 1, 0.22, 1), opacity .5s;
+    animation: glitchPop .5s ease;
+}
+
+#gameOver.show .over-box{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.over-box h1{
+    color:#ff0033;
+    font-size: 26px;
+    text-shadow: 0 0  12px red;
+    margin-bottom: 25px;
+}
+
+.over-box p{
+    color: rgba(255,255,255,.85);
+    line-height: 2;
+    margin-bottom: 25px;
+}
+
+.over-box button{
+    padding: 18px 35px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 18px;
+
+    background: linear-gradient(45deg,#ff0033,#660000);
+    color:white;
+    cursor:pointer;
+    font-family: 'Press Start 2P',cursive;
+    transition: .3s;
+}
+
+.over-box button:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 25px red;
+}
+
+
+#damageEffect{
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(90deg,rgba(255,0,0,.15) 0px,rgba(255,0,0,.15) 4px,transparent 4px,transparent 8px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999999;
+
+}
+
+#damageEffect.active{
+    animation: glitchDamage .5s;
+}
+
+@keyframes glitchDamage{
+    0%{
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    20%{
+        opacity: 1;
+        transform: translateX(-10px);
+    }
+    40%{
+        opacity: .7;
+        transform: translateX(10px);
+    }
+    60%{
+        opacity: 1;
+        transform: translateX(-6px);
+    }
+    100%{
+        opacity: 0;
+        transform: translateX(0);
+    }
+}
+
+.shake{
+    animation: screenShake .4s;
+}
+
+@keyframes screenShake{
+    0%{
+        transform: translate(0);
+    }
+    25%{
+        transform: translate(-10px,5px);
+    }
+    50%{
+        transform: translate(10px,-5px);
+    }
+    75%{
+        transform: translate(-6px,4px);
+    }
+    100%{
+        transform: translate(0);
+    }
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+btn-submit,btn-close{
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    transition: .3s;
+}
+
+.btn-submit{
+    padding: 18px 30px;
+    background: linear-gradient(45deg,#ff6b6b,#ff9f43);
+    color:white;
+    font-size: 12px;
+    box-shadow: 0 8px 20px rgba(255,120,120,0.35);
+}
+
+.btn-close{
+    width: 58px;
+    height: 58px;
+    background: #ffd6d6;
+    font-size: 20px;
+    color: #444;
+}
+
+btn-submit:hover,.btn-close:hover{
+    transform: translateY(-4px);
+    scale: (1.05);
+
+    box-shadow: 0 0 20px rgba(255,120,120,.5);
+
+}
+
+.footer-text{
+    margin-top: 10px;
+    
+    font-size: 9px;
+    color: #444;
+    letter-spacing: 2px;
+    opacity: .8;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.particle{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: yellow;
+    border-radius: 50%;
+    pointer-events: none;            /* Don't block clicks */
+    animation: particle 1s forwards;  /* Play once */
+}
+
+@keyframes particle{
+    to{
+        transform: translateY(-100px) scale(0);  /* Float up & disappear */
+        opacity: 0;
+    }
+}
