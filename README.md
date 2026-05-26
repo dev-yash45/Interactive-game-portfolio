@@ -11,6 +11,12 @@ An interactive retro-inspired portfolio website built like a mini platformer gam
 - Retro UI & animations
 - Contact form
 
+## Controls 🎮
+
+- Move Left → Arrow Left
+- Move Right → Arrow Right
+- Jump → Spacebar
+
 ## Tech Stack
 - HTML
 - CSS
