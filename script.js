@@ -1,11 +1,9 @@
 
-
-
 /* ==== Task - 1 : SETUP VARIABLES ==== */
 
 /* =====GET PLAYER FROM HTML ===== */
 const player = document.getElementById('player');  /* HINT: player id */
-
+const shadow = document.querySelector('.player-shadow');  /* HINT: player-shadow id */
 /* ===== POSITION VARIABLES ===== */
 let x = 100;                    /* Player's left position */
 let y = 0;                      /* Player's up/down position */
@@ -74,8 +72,9 @@ function SubmitForm() {
 function showDamageEffect(){
     const effect = document.getElementById("damageEffect");
     effect.classList.add("active");
+    
     document.body.classList.add("shake");
-
+    document.getElementById("gameOver").classList.add("show");  /* HINT: 'flex' to show */
     setTimeout(() => {
         effect.classList.remove("active")
         document.body.classList.remove("shake");
@@ -91,17 +90,22 @@ document.addEventListener('keydown', e => {
     /* ===== RIGHT ARROW KEY ===== */
     if (e.key === 'ArrowRight') {
         moveRight = true;  /* HINT: true/false */
+        
+
     }
     
     /* ===== LEFT ARROW KEY ===== */
     if (e.key === 'ArrowLeft') {
         moveLeft = true;   /* HINT: true/false */
+        
     }
     
     /* ===== SPACEBAR TO JUMP ===== */
     if (e.code === 'Space' || e.key=== "ArrowUp" && !jumping) {  /* HINT: space key pressed */
         velocityY = -24;       /* Move UP (negative = up) */
         jumping = true;    /* HINT: true/false */
+        shadow.style.transform = 'scale(0.5)';  /* Squash shadow when jump */
+        shadow.style.opacity = '0.15';  /* Fade shadow when jump */
     }
     
     /* ===== DOUBLE TAP SPACEBAR ===== */
@@ -188,7 +192,7 @@ function gameLoop() {
         if (moveLeft) {                               /* variable that hold access to move left */
             x -= 7;                             /* Move LEFT 7 pixels */
             player.style.transform = 'scaleX(-1)';    /* Face LEFT */
-            player.classList.add('walk');             
+            player.classList.add('walk');            
         }
         
         /* NOT MOVING */
@@ -214,6 +218,8 @@ function gameLoop() {
             y = 0;                 /* Stop at ground level */
             velocityY = 0;         /* Stop falling */
             jumping = false;    /* HINT: true/false */
+            shadow.style.transform = 'scale(1)';  /* Reset shadow size */
+            shadow.style.opacity = '0.4';  /* Reset shadow opacity */
         }
         
         if (y < -450) {  /* Limit how high you can jump */
@@ -224,6 +230,8 @@ function gameLoop() {
         
         player.style.left = x + 'px';           /* HINT: join units */
         player.style.top = (window.innerHeight - 220 + y) + 'px';  /* HINT: join units */
+        shadow.style.top = (window.innerHeight - 120 ) + 'px';
+        shadow.style.left = player.style.left; /* Move shadow with player */
         
         
         /* ===== CAMERA FOLLOW ===== */
@@ -256,6 +264,24 @@ function gameLoop() {
                     /* UPDATE SCORE DISPLAY */
                     document.getElementById('coins').innerText = "COINS:" + score;  /* HINT: update 'score' value */
                     
+                    player.className = "player";
+
+                    if(score >= 1){
+                        player.classList.add("evo1");
+                    }
+                    if(score >= 2){
+                        player.classList.add("evo2");
+                    }
+                    if(score >= 3){
+                        player.classList.add("evo3");
+                    }
+                    if(score >= 4){
+                        player.classList.add("evo4");
+                    }
+                    if(score >= 5){
+                        player.classList.add("evo5");
+                    }
+
                     /* CREATE PARTICLES */
                     createParticles(cx, cy);
 
@@ -280,8 +306,7 @@ function gameLoop() {
                 gameCompleted = true;                 /* HINT: true/false */
                 moveLeft = false;                        /* HINT: true/false */
                 moveRight = false;  
-                document.getElementById("gameOver").classList.add("show");  /* HINT: 'flex' to show */
-                    
+                
                 
                 
             }
