@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&display=swap');
+
 /* ===== RESET ALL BROWSERS TO SAME STATE ===== */
 *{
     margin: 0;      /* Remove default space OUTSIDE */
@@ -7,7 +9,7 @@
 
 body{
     overflow: hidden;  /* Hide scrollbars */
-    font-family: 'Press Start 2P', cursive;  /* Game font */
+    font-family: 'Inter', sans-serif;  /* Game font */
     background: #5c94fc;  /* Light blue background */
 }
 
@@ -21,10 +23,9 @@ body{
     background: 
     linear-gradient(
         to bottom,             /* HINT: Direction (top/bottom/left/right) */
-        #87ceeb 0%,             /* HINT: Sky color at top */
-        #87ceeb 60%,             /* Light blue sky */
-        #3cb043 60%,             /* Green ground */
-        #3cb043 100%             /* Green ground */
+        #0f172a 0%,           /* Green ground */
+        #111827 45%,
+        #1e1b4b 100%
     );
     
 }
@@ -39,33 +40,86 @@ body{
     background:
     radial-gradient(
         circle at center,
-        rgba(255,255,255,.12),
-        transparent 60%
+        rgba(139,92,246,0.18),
+        transparent 65%
     );
 
     pointer-events: none;
 }
 
-/* ===== Task - 2 : GLOWING SUN ===== */
-.sun{
+/* ===== Task - 2 : GLOWING MOON ===== */
+.moon{
     position: absolute;          /* HINT: absolute/relative */
-    width: 140px;                /* Width of sun */
-    height: 140px;               /* Height of sun (same = circle) */
-    background: #ffd700;        /* HINT: Color name or hex */
+    width: 120px;                /* Width of sun */
+    height: 120px;               /* Height of sun (same = circle) */
+    background: radial-gradient(circle at 30% 30%,#ffffff,#d8f3ff,#8fdcff);        /* HINT: Color name or hex */
     border-radius: 50%;          /* Makes square into circle */
-    top: 50px;                   /* Distance from TOP */
-    right: 300px;                /* Distance from RIGHT */
-    box-shadow: 0 0 60px #ffd700;  /* HINT: Glow color */
-    animation: sunPulse 3s infinite alternate;  /* Animation name */
+    top: 80px;                   /* Distance from TOP */
+    right: 180px;                /* Distance from RIGHT */
+    box-shadow: 0 0 25px #8fdcff,
+    0 0 60px #8fdcff,
+    0 0 100px rgba(143,220,255,0.6);  /* HINT: Glow color */
+    filter: blur(.3px);
+    opacity: .95;
+    animation: moonPulse 3s infinite alternate;  /* Animation name */
 }
 
 /* HOW TO ANIMATE: Keyframes define what changes */
-@keyframes sunPulse{
+@keyframes moonPulse{
     from{
-        transform: scale(1);     /* Start size: normal (1) */
+        transform: translateY(0px) scale(1);     /* Start size: normal (1) */
     }
     to{
-        transform: scale(1.1);   /* End size: 10% bigger */
+        transform: translateY(10px) scale(1.1);   /* End size: 10% bigger */
+    }
+}
+
+.crater{
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0,0,0,.12);    
+}
+
+.c1{
+    width: 18px;
+    height: 18px;
+    top: 25px;
+    left: 30px;
+}
+
+c2{
+    width: 10px;
+    height: 10px;
+    top: 60px;
+    left: 70px;
+} 
+
+c3{
+    width: 14px;
+    height: 14px;
+    top: 40px;
+    left: 85px;
+}
+
+.stars{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background-image: radial-gradient(white 1px,transparent 1px);
+    background-size: 50px 50px;
+    opacity: .18;
+
+    pointer-events: none;
+    animation: starsMove 6s linear infinite alternate;
+}
+
+@keyframes starsMove{
+    from{
+        transform: translateY(0);
+    }
+    to{
+        transform: translateY(-120px);
     }
 }
 
@@ -148,9 +202,10 @@ body{
     /* TRICK: Use borders to create triangle */
     border-left: 250px solid transparent;        /* HINT: transparent */
     border-right: 250px solid transparent;       /* HINT: transparent */
-    border-bottom: 400px solid #8B4513;      /* HINT: Mountain color */
+    border-bottom: 400px solid #334155;      /* HINT: Mountain color */
     
-    filter: brightness(.9);          /* Make slightly darker */
+    filter: brightness(.85);          /* Make slightly darker */
+    opacity: .9;                      /* Make slightly transparent */
 }
 
 /* ===== Task - 5 : GROUND WITH REPEATING PATTERN ===== */
@@ -162,12 +217,13 @@ body{
     background: 
     repeating-linear-gradient(
         90deg,                        /* Horizontal direction */
-        #8B4513 0px,                 /* HINT: First stripe color */
-        #8B4513 60px,                /* HINT: First stripe width */
-        #7a3d00 60px,                 /* Second stripe color */
-        #7a3d00 120px                /* HINT: Pattern repeat width */
+        #1e293b 0px,                 /* HINT: First stripe color */
+        #1e293b 80px,                /* HINT: First stripe width */
+        #273549 80px,                 /* Second stripe color */
+        #273549 160px                /* HINT: Pattern repeat width */
     );
-    border-top: 8px solid #5d2906;   /* HINT: Border color */
+    box-shadow: 0 -10px 30px rgba(56,189,248,0.08);
+    border-top: 4px solid #38bdf8;   /* HINT: Border color */
 }
 
 /* ===== Task - 6 : PLAYER CONTAINER ===== */
@@ -178,15 +234,35 @@ body{
     left: 100px;                      /* Distance from LEFT */
     bottom: 120px;                    /* Distance from BOTTOM */
     z-index: 100;                     /* Layer above other things */
-    transition: transform .1s;        /* Smooth movement */
+    transition: all .15s ease;        /* Smooth movement */
+    border-radius: 16px;
+    overflow: hidden;
+    
+    filter: drop-shadow(0 0 10px rgba(255,80,200,0.7))
+    drop-shadow(0 0 20px rgba(0,240,255,.5));
+
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-5px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
 }
 
 /* ===== CAP (RED TOP) ===== */
 .cap{
     width: 70px;
     height: 20px;
-    background: #ff0000;              /* HINT: Cap color */
+    background: linear-gradient(to right,#ff4fd8,#ff7cf0);              /* HINT: Cap color */
     border: 4px solid #000000;        /* HINT: Border color */
+    border-radius: 14px 14px 6px 6px;
     position: absolute;                /* HINT: absolute/relative */
 }
 
@@ -194,30 +270,72 @@ body{
 .face{
     width: 50px;
     height: 40px;
-    background: #f9d7b1;              /* HINT: Skin color (peachy) */
+    background: #f4f7ff;              /* HINT: Skin color (peachy) */
     border: 4px solid #000000;        /* HINT: Border color */
+    border-radius: 10px;
     position: absolute;                /* HINT: absolute/relative */
     top: 18px;                        /* Position below cap */
     left: 10px;                       /* Center on body */
+}
+
+.visor{
+    width: 28px;
+    height: 8px;
+
+    background: #00f0ff;
+
+    margin: 14px auto;
+
+    border-radius: 20px;
+
+    box-shadow: 0 0 8px #00f0ff,
+    0 0 18px #00f0ff;
 }
 
 /* ===== BODY (RED SHIRT) ===== */
 .body{
     width: 55px;
     height: 35px;
-    background: #ff0000;              /* HINT: Body color */
+    background: linear-gradient(to bottom,#ffffff,#d9d9ff);              /* HINT: Body color */
     border: 4px solid #000000;        /* HINT: Border color */
+    border-radius: 8px;
     position: absolute;                /* HINT: absolute/relative */
     top: 55px;                        /* Position below face */
     left: 7px;                        /* Center on player */
+}
+
+.core{
+    width: 16px;
+    height: 16px;
+    
+    background: #ff4fd8;
+
+    border-radius: 50%;
+
+    margin: 10px auto;
+
+    box-shadow: 0 0 10px #ff4fd8
+    0 0 22px #ff4fd8;
+
+    animation: pilse 1s infinite alternate;
+}
+
+@keyframes pulse{
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(1.2);
+    }
 }
 
 /* ===== LEGS (BLUE PANTS) ===== */
 .legs{
     width: 55px;
     height: 25px;
-    background: #0000ff;              /* HINT: Leg color (blue) */
+    background: linear-gradient(to right, #3d5cff,#00bfff);              /* HINT: Leg color (blue) */
     border: 4px solid #000000;        /* HINT: Border color */
+    border-radius: 0 0 10px 10px;
     position: absolute;                /* HINT: absolute/relative */
     top: 85px;                        /* Position below body */
     left: 7px;                        /* Center on player */
@@ -237,20 +355,62 @@ body{
     }
 }
 
+.player-shadow{
+    position: absolute;
+
+    width: 55px;
+    height: 14px;
+
+    background: radial-gradient(ellipse at center,rgba(255,80,80,0.55),rgba(255,0,100,0.15),transparent);
+    box-shadow: 0 0 25px rgba(255,80,80,.7);
+    border-radius: 50%;
+    opacity: 0.5;
+
+
+    filter: blur(10px);
+    bottom: 112px;
+    left: 388px;
+    z-index: 1;
+
+    transition: transform 0.15s ease,opacity 015s ease;
+    
+}
+
 /* ===== Task - 7 : INFO PANELS ===== */
 .panel{
     position: absolute;               /* HINT: absolute/relative */
     width: 550px;
-    background: rgba(255,255,255,.92);             /* HINT: Card background color */
-    border: 2px solid #00000014;       /* HINT: Border color */
-    border-radius: 18px;
-
+    background: rgba(15,23,42,0.72);             /* HINT: Card background color */
+    border: 1px solid rgba(255,255,255,0.12);       /* HINT: Border color */
+    border-radius: 28px;
+    backdrop-filter: blur(12px);
     padding: 40px;                   /* Space INSIDE card */
-    box-shadow: 0 10px 30px rgba(0,0,0,.18);  /* HINT: Shadow color */
-    color: #1e293b;
+    box-shadow: 0 8px 32px rgba(0,0,0,.45),
+    0 8px 32px rgba(0,0,0,.45);  /* HINT: Shadow color */
+    color: #f8fafc;
     transition: transform .25s ease,
     box-shadow .25 ease;                 /* Smooth hover animation */
+    overflow: hidden;
     
+}
+
+.panel::before{
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width:100%;
+    height: 100%;
+
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
+    transition: .8s;
+}
+
+.panel:hover::before{
+    left: 100%;
 }
 
 .panelW{
@@ -258,16 +418,14 @@ body{
 
     animation: floatCard 3s ease-in-out infinite alternate;
 }
-
+        /* Grow 5% */
 /* ===== WHEN MOUSE HOVERS ON CARD ===== */
 .panel:hover{
 
     animation-play-state: paused;
     transform: 
-    translateX(-15px)                /* Move UP 10px */
-    rotateX(-5deg)                   /* Tilt slightly */
-    scale(1.03);  
-    box-shadow: 0 18px 40px rgba(0,0,0,.22);                   /* Grow 3% bigger */
+    translateY(-8px) scale(1.02);  
+    box-shadow: 0 12px 40px rgba(56,189,248,.18);                   /* Grow 3% bigger */
 }
 
 @keyframes floatCard{
@@ -285,19 +443,21 @@ body{
 
 
 /* ===== PANEL HEADING ===== */
-.panel h1{
+.panel h2{
+    font-family: 'Press Start 2P', cursive;
     font-size: 28px;
-    margin-bottom: 18px;
-    color: #0f172a;
-    letter-spacing: 1px;
+    margin-bottom: 22px;
+    color: #38bdf8;
+    text-shadow: 0 0 12px rgba(56,189,248,.5);
+    letter-spacing: 2px;
 }
 
-/* ===== PANEL TEXT ===== */
+/* ===== PANEL TEXT ====1e293b= */
 .panel p{
     margin-top: 10px;
     font-size: 15px;
-    line-height: 1.9;                  /* Double spacing between lines */
-    color: #334155;
+    line-height: 2.1;                  /* Double spacing between lines */
+    color: #cbd5e1;
 }
 
 /* ===== SKILLS SECTION ===== */
@@ -310,36 +470,42 @@ body{
 
 /* ===== INDIVIDUAL SKILL TAG ===== */
 .skill{
-    background: #5798ff;             /* HINT: Skill tag color */
-    padding: 12px 22px;
+    background: rgba(56,189,248,0.12);             /* HINT: Skill tag color */
+    padding: 14px 24px;
 
     min-width: 120px;
 
 
-    border: 4px solid #38bdf8 ;       /* HINT: Border color */
-    transition: .2s;
+    border: 1px solid rgba(56,189,248,.35);       /* HINT: Border color */
+    border-radius: 16px;
+    color: #38bdf8;
+    transition: all .3s ease;
+    box-shadow: 0 0 12px rgba(56,189,248,0.08);
 }
 
 /* ===== SKILL HOVER EFFECT ===== */
 .skill:hover{
-    transform: scale(1.15) rotate(-3deg);  /* Grow & tilt */
+    transform: translateY(-5px) scale(1.15);  /* Grow & tilt */
+    box-shadow: 0 0 22px rgba(56,189,248,.35);
+    background: rgba(56,189,248,.18);
 }
 
 /* ===== PROJECTS ===== */
 .project{
     margin-top: 20px;
-    padding: 20px;
-    background: #f0f0f0;             /* HINT: Project background */
-    color: #333;                  /* HINT: Text color */
-    border: 4px solid #ccc;       /* HINT: Border color */
-    transition: .3s;
+    padding: 22px;
+    background: rgba(255,255,255,.05);             /* HINT: Project background */
+    color: #f8fafc;                  /* HINT: Text color */
+    border: 1px solid rgba(255,255,255,.08);       /* HINT: Border color */
+    border-radius: 18px;
+    transition: .3s ease;
 }
 
 /* ===== PROJECT HOVER EFFECT ===== */
 .project:hover{
     transform: 
-    translateX(10px)                 /* Slide RIGHT */
-    scale(1.05);                     /* Grow 5% */
+    translateY(-6px);           
+    box-shadow: 0 0 24px rgba(139,92,246,.22);
 }
 
 /* ===== Task- 8 : GOLDEN COINS ===== */
@@ -1032,5 +1198,124 @@ btn-submit:hover,.btn-close:hover{
     to{
         transform: translateY(-100px) scale(0);  /* Float up & disappear */
         opacity: 0;
+    }
+}
+
+
+.evo1{
+    filter:drop-shadow(0 0 8px cyan)
+    drop-shadow(0 0 16px  cyan);
+
+    transform: scale(1.05);
+}
+
+.evo2{
+    filter: drop-shadow(0 0 10px #00ffcc)
+    drop-shadow(0 0 20px #00ffcc);
+
+    transform: scale(1.12);
+
+    animation: floaty .8s infinite alternate;
+
+}
+
+.evo3{
+    filter: drop-shadow(0 0 12px #ff00ff)
+    drop-shadow(0 0 24px #ff00ff);
+
+    transform: scale(1.18);
+
+    animation: floaty .6s infinite alternate,
+    pulsy .7s infinite alternate;
+}
+
+.evo4{
+    filter: drop-shadow(0 0 14px #00ffff),
+    drop-shadow(0 0 28px #ff00ff);
+
+    transform:scale(1.24);
+    animation: floaty .4s infinite alternate,
+    pulsy .5s infinite alternate;
+
+}
+
+.evo5{
+    filter: drop-shadow(0 0 18px white)
+    drop-shadow(0 0 35px cyan)
+    drop-shadow(0 0 45px magenta);
+
+    transform: scale(1.32);
+
+    animation: floaty .3s infinite alternate
+    pulsy .3s infinite alternate;
+}
+
+/* ===== EVO 1 ===== */
+.evo1 .face{
+    background: #b8ffff;
+}
+
+.evo1 .cap{
+    background: #ff66cc;
+}
+
+/* ===== EVO 2 ===== */
+.evo2{
+    animation: floaty .7s infinite alternate;
+}
+
+.evo2 .body{
+    background: #00ffee;
+}
+
+/* ===== EVO 3 ===== */
+.evo3 .cap{
+    background: #b300ff;
+}
+
+.evo3 .face{
+    box-shadow: 0 0 12px cyan;
+}
+
+/* ===== EVO 4 ===== */
+.evo4 .body{
+    background: #111111;
+}
+
+.evo4 .legs{
+    background: linear-gradient(to bottom,#00ffff,#ff00ff);
+}
+
+/* ===== FINAL FORM ===== */
+.evo5 .cap{
+    background: white;
+}
+
+.evo5 .body{
+    background: black;
+}
+
+.evo5 .face{
+    background: cyan;
+    box-shadow:
+    0 0 10px cyan,
+    0 0 20px white;
+}
+
+@keyframes floaty{
+    from{
+        transform: translateY(0px);
+    }
+    to{
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes pulse{
+    from{
+        opacity: .8;
+    }
+    to{
+        opacity: 1;
     }
 }
